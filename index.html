@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Legal Comply Pakistan – Legal Toolkit for Founders</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Free legal templates, checklists, and startup compliance help for Pakistani entrepreneurs">
+    <meta name="keywords" content="startup law, SECP, Pakistan founders, FBR, legal checklist">
+    <meta property="og:title" content="Legal Comply Pakistan – Legal Toolkit for Founders">
+    <meta property="og:description" content="Comprehensive legal compliance tools for Pakistani startups">
+    <meta property="og:image" content="https://example.com/preview-image.png">
+    <meta property="og:url" content="https://legalcomply.pk">
+    <meta property="og:type" content="website">
+    
+    <!-- Tailwind and font-awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- ChartJS -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheet -->
+    <style>
+        /* Theme variables and styles from original */
+        :root {
+            --primary: #2c5f2d; --secondary: #8f3b1b; --accent: #d4af37;
+            --dark: #333333; --light: #f8f7f2; --highlight: #7d6e63; 
+            --contrast: #005f73;
+        }
+
+        [data-theme="dark"] {
+            --primary: #4caf50; --secondary: #c77d63; --accent: #ffd700; 
+            --dark: #f0f0f0; --light: #1e1e1e; --highlight: #a1887f; 
+            --contrast: #4db6ac;
+        }
+
+        /* Original styles kept ... */
+        
+        .landing-hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1589391886645-d51941baf7fb?w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            padding: 0 20px;
+        }
+
+        .legal-checklist-item {
+            cursor: pointer;
+            padding: 12px;
+            border: 1px solid rgba(161, 136, 127, 0.2);
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .legal-checklist-expanded {
+            max-height: 500px;
+            transition: max-height 0.5s ease-out;
+        }
+
+        .checklist-preview {
+            display: none;
+            padding: 8px 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-in-out;
+        }
+
+        .checklist-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .template-card {
+            background-color: var(--light);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px 0 rgba(0,0,0,0.08);
+            border: 1px solid rgba(161, 136, 127, 0.2);
+            transition: transform 0.2s;
+        }
+
+        .template-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .template-icon {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .blog-card {
+            background-color: white;
+            padding: 16px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .contact-form,
+        .legal-quiz {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .quiz-question {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px dotted var(--primary);
+        }
+
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body data-theme="light" class="min-h-screen font-open-sans bg-light text-dark selection:bg-accent selection:text-light">
+
+    <!-- Navigation -->
+    <header>
+        <div class="classic-header flex justify-around items-center p-4">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+                    <i class="fas fa-balance-scale text-xl text-primary"></i>
+                </div>
+                <h1 class="text-xl font-bold">PakLegalComply Pakistan</h1>
+            </div>
+            <div class="flex items-center space-x-3">
+                <span id="theme-toggle" class="cursor-pointer px-3 py-2 rounded-full hover:bg-secondary hover:text-light transition-all duration-300">
+                    <i class="fas fa-moon"></i>
+                </span>
+                <span class="hidden md:block text-sm">Open Source</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="landing-hero text-white text-center flex flex-col md:flex-row justify-between items-center">
+        <div class="md:w-3/5 mx-auto">
+            <h2 class="text-4xl font-extrabold mb-4 tracking-tight">
+                Legal Compliance for <br>Pakistani Startups
+            </h2>
+            <p class="text-lg mb-6">
+                Startup founders need legal clarity. We offer free compliance tools for <br>company registration, tax filing, labor laws and more.
+            </p>
+            <div class="flex flex-col md:flex-row justify-center gap-4">
+                <button id="download-checklist" class="classic-button flex items-center bg-primary text-white py-3 px-8 rounded-lg">
+                    <i class="fas fa-download mr-2"></i> Download Legal Checklist
+                </button>
+                <button id="browse-templates" class="classic-button flex items-center border border-primary text-primary py-3 px-8 rounded-lg hover:bg-primary hover:text-white transition-all">
+                    <i class="fas fa-th-large mr-2"></i> Browse Legal Templates
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Legal Checklist Modal -->
+    <div id="legal-checklist-modal" class="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50 bg-black/60 hidden">
+        <div class="bg-light p-6 rounded-lg max-w-3xl w-full max-h-full overflow-y-auto">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl font-semibold">Legal Checklist for Startups</h2>
+                <button id="close-checklist-modal" class="text-dark">&times;</button>
+            </div>
+            <div id="legal-checklist-items" class="space-y-2"></div>
+        </div>
+    </div>
+
+    <!-- Template Cards -->
+    <section id="template-library-room" class="py-10 container mx-auto px-4">
+        <div class="text-center mb-8">
+            <h2 class="text-3xl font-bold text-dark">Legal Template Library</h2>
+            <p class="text-gray-600 mt-2">Download customizable legal agreements</p>
+        </div>
+        <div id="legal-templates" class="grid grid-cols-1 md:grid-cols-3 gap-6 pb-10"></div>
+        <!-- Template Modals -->
+        <div id="document-modal" class="document-preview-modal">
+            <div id="document-preview-inner" class="document-preview-container self-center p-6">
+                <button id="close-preview" class="absolute top-2 right-2">&times;</button>
+                <h3 class="document-title text-3xl text-dark font-bold mb-4">Partial Preview</h3>
+                <div class="document-body text-dark">Sample document text - dummy placeholder for download.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Readiness Quiz -->
+    <section class="quiz-section bg-green-50 py-10">
+        <div class="legal-quiz container mx-auto px-4 max-w-3xl">
+            <h2 class="text-3xl font-bold mb-6">Are You Legally Ready</h2>
+            <div id="quiz-questions" class="space-y-2"></div>
+            <button id="submit-quiz" class="classic-button mt-4 flex items-center">
+                <i class="fas fa-check mr-2"></i> Check Status
+            </button>
+            <div id="quiz-result" class="hidden mt-6 text-xl font-semibold"></div>
+        </div>
+    </section>
+
+    <!-- Blog Previews -->
+    <section class="container mx-auto px-4 pb-10">
+        <div class="text-center mb-8">
+            <h2 class="text-3xl font-bold text-dark">Legal Insights for Startups</h2>
+            <p class="text-gray-600 mt-2">Concise knowledge for every founder</p>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div class="blog-card">
+                <div class="bg-yellow-100 p-4 rounded-t h-36 flex items-center justify-center">Image</div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2">How to Register a Startup in Pakistan</h3>
+                    <div class="text-gray-600 mb-3">Step-by-step SECP, local legal setup and documentation breakdown</div>
+                    <button class="classic-button text-sm mt-2">Read More ...</button>
+                </div>
+            </div>
+            <div class="blog-card">
+                <div class="bg-blue-100 p-4 rounded-t h-36 flex items-center justify-center">Image</div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2">What is a SAFE Note?</h3>
+                    <div class="text-gray-600 mb-3">Simplified Investors, Terms, and Usage in Local Funding</div>
+                    <button class="classic-button text-sm mt-2">Read Later</button>
+                </div>
+            </div>
+            <div class="blog-card">
+                <div class="bg-green-100 p-4 rounded-t h-36 flex items-center justify-center">Image</div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2">Avoid Legal Mistakes in Early Days</h3>
+                    <div class="text-gray-600 mb-3">Critical errors to look out for during company formation</div>
+                    <button class="classic-button text-sm mt-2">Discover Now</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="bg-accent/10 py-10">
+        <div class="container max-w-2xl mx-auto px-4 py-8 mb-4">
+            <h2 class="text-2xl font-bold text-center">Get Legal Compliance Help</h2>
+            <form id="contact-form" class="contact-form space-y-4 mt-6">
+                <input type="text" class="form-input" placeholder="Name" required>
+                <input type="email" class="form-input" placeholder="Email" required>
+                <input type="text" class="form-input" placeholder="Subject" required>
+                <textarea class="form-input" placeholder="Your Message" rows="4"></textarea>
+                <button type="submit" class="classic-button w-full">Send Message</button>
+            </form>
+            <p class="text-center font-medium mt-6 opacity-80">
+                Legal Comply Pakistan is an open-source education tool – not a substitute for legal advice.
+            </p>
+            <div class="flex space-x-4 justify-center mt-4">
+                <a href="#" class="hover:text-highlight"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" class="hover:text-highlight"><i class="fab fa-github"></i></a>
+                <a href="#" class="hover:text-highlight"><i class="fas fa-envelope"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Login Area (Simplified for demo) -->
+    <section id="login-section" class="hidden">
+        <div class="login-card bg-white p-8 max-w-md mx-auto my-6 rounded-lg shadow">
+            <h3 class="text-2xl font-bold text-center mb-4 text-primary">Login</h3>
+            <form>
+                <input type="email" placeholder="Your Email" class="form-input mb-4">
+                <input type="password" placeholder="*********" class="form-input mb-2">
+                <button class="classic-button w-full mt-4">Login</button>
+            </form>
+        </div>
+    </section>
+    
+    <!-- Toast Notification -->
+    <div class="toast fixed bottom-4 right-4 bg-green-600 text-white px-6 py-3 rounded-full hidden z-50 animate-pulse">
+        <i class="fas fa-check-circle mr-2"></i> Action successful
+    </div>
+
+    <!-- Site-wide Footer -->
+    <footer class="py-6 bg-secondary/10 text-center text-gray-600 text-sm mt-auto">
+        <div class="container mx-auto flex flex-col md:flex-row justify-center gap-4">
+            <span>Need more templates? <a href="#template-library-room" class="text-primary">Browse our library</a></span>
+            <span>Follow us on <a href="#" class="text-highlight">LinkedIn</a> and <a href="#" class="text-highlight">GitHub</a></span>
+        </div>
+        <div class="text-xs mt-4">
+            Legal Comply Pakistan - Free and open for founders. All materials for educational use only.
+        </div>
+    </footer>
+
+    <script>
+        // Modern legal integrity data for checklist
+        const legalChecklistItems = [
+            { id: 'founders-agreement', title: 'Founders Agreement', description: 'Govern roles, equity, and dispute resolution among co-founders | Mandatory for startups with multiple founders' },
+            { id: 'company-reg', title: 'Company Registration (SECP)', description: 'Register your business with SECP and obtain NTN across all businesses' },
+            { id: 'ip-protection', title: 'IP Protection', description: 'Trademarks/Copyright critical for tech companies | Start with trademark search' },
+            { id: 'privacy-policy', title: 'Privacy Policy & TOS', description: 'Essential for apps and websites that collect user data | GDPR/PECA ready' },
+            { id: 'contracts', title: 'Employee / Advisor Contracts', description: 'Written contracts protect both parties | Define compensation, NDAs, and IP ownership' },
+            { id: 'cap-table', title: 'Cap Table Management', description: 'Track ownership structure for investors | Use simple spreadsheets or tools' },
+            { id: 'safe-notes', title: 'SAFE Notes / Convertible Docs', description: 'Raise money using standard agreements | Learn about valuation caps and conversion' },
+            { id: 'tax-filing', title: 'Tax Filing', description: 'Income, sales, and withholding tax registers | You must file returns' },
+            { id: 'ndas', title: 'NDAs', description: 'Use for business meetings, mentors and business development' },
+            { id: 'data-privacy', title: 'Data Protection', description: 'PECA and data controller obligations | GDPR-style integration already ahead of 2024 regulations' }
+        ];
+
+        // Template Library data
+        const templates = [
+            { id: 'founders', title: 'Founders Agreement', description: 'Safeguard equity shares, roles and obligations' },
+            { id: 'nda', title: 'Non-Disclosure Agreement', description: 'Standard NDA document for founder-investor and vendor conversations' },
+            { id: 'employment', title: 'Employment Contract', description: 'Full-time/part-time onboarding contract template with e-signature fields' },
+            { id: 'ip-assign', title: 'IP Assignment Agreement', description: 'Includes future wallet codes, inventions and partner contributions' }
+        ];
+
+        // Legal readiness quiz questions
+        const quizQuestions = [
+            { id: 'q1', text: 'Do you have a documented Founders Agreement?', options: ['Yes', 'No', 'Not sure'] },
+            { id: 'q2', text: 'Is your company registered with SECP?', options: ['Yes', 'No', 'Soon'] },
+            { id: 'q3', text: 'How are you handling IP protection?', options: ['Patented', 'In process', 'Not started'] },
+            { id: 'q4', text: 'Have you prepared Terms & Conditions?', options: ['Written', 'Found free online', 'No'] },
+            { id: 'q5', text: 'Are you employee contracts in place?', options: ['Yes', 'In process', 'No'] }
+        ];
+
+        // App state
+        const appState = {
+            checks: new Set(),
+            templateUrl: "http://templates.legalcomply.pk/",
+            currentLanguage: "en"
+        };
+
+        /* Initialize Dark Mode Toggle */
+        function toggleTheme() {
+            document.documentElement.toggleAttribute('data-theme', 
+                document.documentElement.getAttribute('data-theme') !== 'dark');
+            document.getElementById('theme-toggle').innerHTML = 
+                document.documentElement.getAttribute('data-theme') === 'dark' 
+                ? '<i class="fas fa-sun"></i>' 
+                : '<i class="fas fa-moon"></i>';
+        }
+
+        // Render legal checklist
+        function renderLegalChecklist() {
+            const container = document.getElementById('legal-checklist-items');
+            legalChecklistItems.forEach(item => {
+                const div = document.createElement('div');
+                div.className = "legal-checklist-item p-3 rounded-md mb-2 bg-dark/5 hover:bg-dark/10";
+                div.innerHTML = 
+                    `<h4 class="flex justify-between items-center text-lg" data-target="#checklist-${item.id}">
+                        ${item.title} <i class="fas fa-plus ml-2"></i>
+                    </h4>
+                    <div id="checklist-${item.id}" class="checklist-preview mt-2">
+                        <p><strong>Description:</strong> ${item.description}</p>
+                        <button class="classic-button mt-3 text-sm">Learn More</button>
+                    </div>`;
+                container.appendChild(div);
+                
+                // Open/close checklist items
+                div.querySelector('h4').addEventListener('click', () => {
+                    div.querySelector('.checklist-preview').style.maxHeight = 
+                        div.querySelector('.checklist-preview').style.maxHeight ? 0 : '500px';
+                    div.querySelector('i').classList.toggle('fa-minus', !appState.checks.has(item.id));
+                    div.querySelector('i').classList.toggle('fa-plus', appState.checks.has(item.id));
+                });
+
+                // Download links
+                div.querySelector('button').addEventListener('click', () => {
+                    showToast(`Download ${item.title} guide in ${document.body.clientWidth < 768 ? 'Urdu' : 'English'}`);
+                    localStorage.setItem(`checklist_${item.id}`, true);
+                });
+            });
+        }
+
+        // Render legal templates
+        function renderLegalTemplates() {
+            const container = document.getElementById('legal-templates');
+            templates.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "template-card p-6";
+                card.innerHTML = 
+                    `<h3 class="text-xl font-bold text-primary">${item.title}</h3>
+                    <div class="flex items-center">
+                        <i class="fas fa-drafting-compass text-accent text-2xl mr-2"></i>
+                        ${item.description}
+                    </div>
+                    <div class="mt-4 text-sm flex justify-center">
+                        <button class="classic-button mr-2 text-sm">View</button>
+                        <button class="classic-button text-sm bg-secondary text-light hover:bg-accent">
+                            <a href="${appState.templateUrl}${item.id}.docx" download>
+                                <i class="fas fa-download mr-1"></i> Download (.docx)
+                            </a>
+                        </button>
+                    </div>`;
+                container.appendChild(card);
+
+                // Model for template preview
+                card.querySelector('button:nth-child(1)').addEventListener('click', () => {
+                    document.getElementById('document-modal').classList.toggle('hidden');
+                });
+            });
+        }
+
+        // Render quiz section
+        function renderQuiz() {
+            const container = document.getElementById('quiz-questions');
+            quizQuestions.forEach(q => {
+                const html = `<div class="quiz-question">
+                    <strong>${q.text}</strong>
+                    <div class="flex flex-wrap my-2">
+                        ${q.options.map(opt => 
+                            `<label class="px-2 mb-2">
+                            <input type="radio" name="${q.id}" value="${opt}"> ${opt}</label>`).join('')}
+                    </div>`;
+                container.innerHTML += html;
+            });
+        }
+
+        // Quiz result calculation
+        document.getElementById('submit-quiz').addEventListener('click', () => {
+            if (confirm("Disclaimer: This quiz is for educational use only and does not substitute legal advice. Proceed?")) {
+                let score = 0;
+                quizQuestions.forEach((q, index) => {
+                    score += document.querySelector(`input[name="${q.id}"]:checked`)?.value === 'Yes' || 
+                             document.querySelector(`input[name="${q.id}"]:checked`)?.value === 'Written' ? 1 : 0;
+                });
+                
+                const resultDiv = document.getElementById('quiz-result');
+                resultDiv.className = `mt-6 text-${score >= 4 ? 'green' : score < 3 ? 'red' : 'yellow'}-600 font-semibold`;
+                resultDiv.textContent = [
+                    'You’re exposed, bhidu', 
+                    'Almost legal', 
+                    'Legally ready! 👏'])[score >= 4 ? 2 : score >= 3 ? 1 : 0];
+                resultDiv.classList.remove('hidden');
+            }
+        });
+
+        // Initialize interactive elements
+        function initializeMVP() {
+            // Trigger COMPLIANCE CHECKLIST modal
+            document.getElementById('download-checklist').addEventListener('click', () => {
+                document.getElementById('legal-checklist-modal').classList.remove('hidden');
+            });
+
+            document.getElementById('close-checklist-modal').addEventListener('click', () => {
+                document.getElementById('legal-checklist-modal').classList.add('hidden');
+            });
+
+            // Bilingual toggle
+            document.getElementById('toggle-lang').addEventListener('click', () => {
+                appState.currentLanguage = appState.currentLanguage === 'en' ? 'urdu' : 'en';
+                document.querySelectorAll('[data-lang]').forEach(el => {
+                    el.textContent = "Translation... 🔄";
+                });
+            });
+
+            // Contact Submit
+            document.getElementById('contact-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                showToast("Advanced legal questions logged – expert will contact you");
+                document.getElementById('contact-form').reset();
+            });
+        }
+
+        // Toast Notifications
+        function showToast(msg) {
+            const toast = document.querySelector('.toast');
+            toast.textContent = msg;
+            toast.classList.remove('hidden', 'opacity-0');
+            setTimeout(() => toast.classList.add('opacity-0'), 2000);
+            setTimeout(() => toast.classList.add('hidden'), 2500);
+        }
+
+        // On page load
+        window.addEventListener('DOMContentLoaded', () => {
+            renderLegalChecklist();
+            renderLegalTemplates();
+            renderQuiz();
+            initializeMVP();
+        });
+    </script>
+</body>
+</html>

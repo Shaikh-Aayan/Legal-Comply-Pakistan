@@ -1,0 +1,1360 @@
+I'll fix all the issues you mentioned and create a fully functional, properly styled application with working features. Let me rebuild this comprehensively:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classic Pakistani Legal Compliance</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2D5016;
+            --secondary: #8B4513;
+            --accent: #FFD700;
+            --dark: #1A1A1A;
+            --light: #FFFFFF;
+            --gray: #6B7280;
+            --background: #F9FAFB;
+            --text-primary: #111827;
+            --text-secondary: #4B5563;
+            --border: #E5E7EB;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+        }
+        
+        [data-theme="dark"] {
+            --primary: #4A7C2E;
+            --secondary: #D2691E;
+            --accent: #FFA500;
+            --dark: #FFFFFF;
+            --light: #0F172A;
+            --gray: #9CA3AF;
+            --background: #1E293B;
+            --text-primary: #F9FAFB;
+            --text-secondary: #CBD5E1;
+            --border: #334155;
+            --success: #34D399;
+            --warning: #FBBF24;
+            --danger: #F87171;
+        }
+        
+        * {
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+        
+        .text-secondary {
+            color: var(--text-secondary);
+        }
+        
+        /* Landing Page Styles */
+        .hero-gradient {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        }
+        
+        .feature-card {
+            background: var(--light);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-decoration: none;
+            border: 2px solid var(--border);
+            cursor: pointer;
+        }
+        
+        .btn-secondary:hover {
+            background: var(--background);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        
+        /* Modal Styles */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 1rem;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: var(--light);
+            border-radius: 12px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Dashboard Styles */
+        .sidebar {
+            background: var(--light);
+            border-right: 1px solid var(--border);
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            overflow-y: auto;
+            z-index: 100;
+            transform: translateX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .sidebar.collapsed {
+            transform: translateX(-280px);
+        }
+        
+        .main-content {
+            margin-left: 280px;
+            min-height: 100vh;
+            background: var(--background);
+            transition: margin-left 0.3s ease;
+        }
+        
+        .main-content.expanded {
+            margin-left: 0;
+        }
+        
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            margin: 4px 12px;
+        }
+        
+        .nav-item:hover {
+            background: var(--background);
+            color: var(--primary);
+        }
+        
+        .nav-item.active {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+        }
+        
+        .card {
+            background: var(--light);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        }
+        
+        .progress-ring {
+            transform: rotate(-90deg);
+        }
+        
+        .progress-ring-circle {
+            stroke-dasharray: 339.292;
+            stroke-dashoffset: 339.292;
+            transition: stroke-dashoffset 1s ease;
+        }
+        
+        .task-item {
+            background: var(--light);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .task-item:hover {
+            border-color: var(--primary);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .task-item.completed {
+            opacity: 0.7;
+            background: var(--background);
+        }
+        
+        .task-item.completed .task-title {
+            text-decoration: line-through;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .badge-success {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+        
+        .badge-warning {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+        
+        .badge-danger {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+        }
+        
+        /* Chat Styles */
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 600px;
+            background: var(--light);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+        }
+        
+        .chat-bubble {
+            max-width: 70%;
+            margin-bottom: 1rem;
+            animation: fadeInUp 0.3s ease;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .chat-bubble.user {
+            margin-left: auto;
+        }
+        
+        .chat-bubble.user .bubble-content {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border-radius: 18px 18px 4px 18px;
+        }
+        
+        .chat-bubble.ai .bubble-content {
+            background: var(--background);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+            border-radius: 18px 18px 18px 4px;
+        }
+        
+        .bubble-content {
+            padding: 12px 16px;
+        }
+        
+        .chat-input-container {
+            border-top: 1px solid var(--border);
+            padding: 1rem;
+            background: var(--background);
+        }
+        
+        .chat-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            background: var(--light);
+            color: var(--text-primary);
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        
+        .chat-input:focus {
+            border-color: var(--primary);
+        }
+        
+        /* Calendar Styles */
+        .calendar {
+            background: var(--light);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+        }
+        
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .calendar-day:hover {
+            background: var(--background);
+        }
+        
+        .calendar-day.today {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+        
+        .calendar-day.has-event::after {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            width: 4px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 50%;
+        }
+        
+        /* Document Styles */
+        .document-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background: var(--light);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .document-item:hover {
+            border-color: var(--primary);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .document-icon {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--background);
+            border-radius: 8px;
+            margin-right: 1rem;
+            color: var(--primary);
+        }
+        
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--light);
+            color: var(--text-primary);
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-input:focus {
+            border-color: var(--primary);
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-280px);
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+        }
+        
+        @media (min-width: 1025px) {
+            .mobile-menu-btn {
+                display: none;
+            }
+        }
+        
+        /* Utility Classes */
+        .hidden {
+            display: none !important;
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        .mt-4 { margin-top: 1rem; }
+        .mb-4 { margin-bottom: 1rem; }
+        .mr-2 { margin-right: 0.5rem; }
+        .ml-auto { margin-left: auto; }
+        .p-4 { padding: 1rem; }
+        .px-4 { padding-left: 1rem; padding-right: 1rem; }
+        .py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+        .font-bold { font-weight: 700; }
+        .font-semibold { font-weight: 600; }
+        .text-sm { font-size: 0.875rem; }
+        .text-lg { font-size: 1.125rem; }
+        .text-xl { font-size: 1.25rem; }
+        .text-2xl { font-size: 1.5rem; }
+        .text-3xl { font-size: 1.875rem; }
+        
+        /* Loading Spinner */
+        .spinner {
+            border: 3px solid var(--border);
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--light);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem 1.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .toast.show {
+            transform: translateX(0);
+        }
+        
+        .toast-success {
+            border-left: 4px solid var(--success);
+        }
+        
+        .toast-error {
+            border-left: 4px solid var(--danger);
+        }
+        
+        .toast-warning {
+            border-left: 4px solid var(--warning);
+        }
+    </style>
+</head>
+<body>
+    <!-- Landing Page -->
+    <div id="landing-page" class="min-h-screen">
+        <!-- Navigation -->
+        <nav class="fixed top-0 left-0 right-0 bg-white dark:bg-gray-900 shadow-lg z-50">
+            <div class="container mx-auto px-4">
+                <div class="flex justify-between items-center py-4">
+                    <div class="flex items-center">
+                        <i class="fas fa-balance-scale text-2xl mr-3" style="color: var(--primary);"></i>
+                        <h1 class="text-xl font-bold">Classic Legal Compliance</h1>
+                    </div>
+                    <div class="flex items-center space-x-6">
+                        <a href="#features" class="hover:text-primary transition">Features</a>
+                        <a href="#pricing" class="hover:text-primary transition">Pricing</a>
+                        <a href="#about" class="hover:text-primary transition">About</a>
+                        <button id="theme-toggle" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                        <button onclick="showAuthModal('login')" class="btn-secondary">Login</button>
+                        <button onclick="showAuthModal('register')" class="btn-primary">Get Started</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section class="hero-gradient text-white pt-32 pb-20">
+            <div class="container mx-auto px-4">
+                <div class="max-w-3xl mx-auto text-center">
+                    <h1 class="text-5xl font-bold mb-6 text-white">Pakistani Legal Compliance Made Simple</h1>
+                    <p class="text-xl mb-8 opacity-90">Navigate SECP, FBR, and labor regulations with confidence. AI-powered guidance for startups and SMEs.</p>
+                    <div class="flex justify-center space-x-4">
+                        <button onclick="showAuthModal('register')" class="btn-primary bg-white text-primary hover:bg-gray-100">
+                            Start Free Trial
+                        </button>
+                        <a href="#demo" class="btn-secondary border-white text-white hover:bg-white hover:text-primary">
+                            Watch Demo
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="py-20">
+            <div class="container mx-auto px-4">
+                <h2 class="text-4xl font-bold text-center mb-12">Everything You Need for Compliance</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="feature-card">
+                        <div class="w-12 h-12 rounded-lg bg-primary bg-opacity-10 flex items-center justify-center mb-4">
+                            <i class="fas fa-tasks text-primary text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3">Smart Checklists</h3>
+                        <p class="text-secondary">Dynamic compliance checklists tailored to your business type and industry.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="w-12 h-12 rounded-lg bg-primary bg-opacity-10 flex items-center justify-center mb-4">
+                            <i class="fas fa-robot text-primary text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3">AI Legal Assistant</h3>
+                        <p class="text-secondary">Get instant answers to your compliance questions with our AI trained on Pakistani laws.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="w-12 h-12 rounded-lg bg-primary bg-opacity-10 flex items-center justify-center mb-4">
+                            <i class="fas fa-file-alt text-primary text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3">Document Templates</h3>
+                        <p class="text-secondary">Access ready-to-use legal templates approved by Pakistani lawyers.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="w-12 h-12 rounded-lg bg-primary bg-opacity-10 flex items-center justify-center mb-4">
+                            <i class="fas fa-calendar-check text-primary text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3">Deadline Tracking</h3>
+                        <p class="text-secondary">Never miss a filing deadline with automated reminders and calendar integration.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="w-12 h-12 rounded-lg bg-primary bg-opacity-10 flex items-center justify-center mb-4">
+                            <i class="fas fa-chart-line text-primary text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3">Progress Analytics</h3>
+                        <p class="text-secondary">Track your compliance health with visual dashboards and reports.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="w-12 h-12 rounded-lg bg-primary bg-opacity-10 flex items-center justify-center mb-4">
+                            <i class="fas fa-user-tie text-primary text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3">Expert Support</h3>
+                        <p class="text-secondary">Connect with verified lawyers when you need professional assistance.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing Section -->
+        <section id="pricing" class="py-20 bg-gray-50 dark:bg-gray-900">
+            <div class="container mx-auto px-4">
+                <h2 class="text-4xl font-bold text-center mb-12">Simple, Transparent Pricing</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                    <div class="feature-card text-center">
+                        <h3 class="text-2xl font-bold mb-4">Starter</h3>
+                        <p class="text-3xl font-bold mb-2">Free</p>
+                        <p class="text-secondary mb-6">For new startups</p>
+                        <ul class="text-left space-y-3 mb-8">
+                            <li class="flex items-center"><i class="fas fa-check text-success mr-2"></i> Basic checklists</li>
+                            <li class="flex items-center"><i class="fas fa-check text-success mr-2"></i> 5 AI questions/month</li>
+                            <li class="flex items-center"><i class="fas fa-check text-success mr-2"></i> 3 document templates</li>
+                            <li class="flex items-center text-gray-400"><i class="fas fa-times mr-2"></i> Priority support</li>
+                        </ul>
+                        <button onclick="showAuthModal('register')" class="btn-secondary w-full">Get Started</button>
+                    </div>
+                    <div class="feature-card text-center border-2 border-primary transform scale-105">
+                        <div class="badge badge-warning mb-4">Most Popular</div>
+                        <h3 class="text-2xl font-bold mb-4">Professional</h3>
+                        <p class="text-3xl font-bold mb-2">PKR 4,999<span class="text-lg font-normal">/month</span></p>
+                        <p class="text-secondary mb-6">For growing businesses</p>
+                        <ul class="text-left space-y-3 mb-8">
+                            <li class="flex items-center"><i class="fas fa-check text-success mr-2"></i> All checklists</li>
+                            <li class="flex items-center"><i class="fas fa-check text-success mr-2"></i> Unlimited AI questions</li>
+                            <li class="flex items-center"><i class="fas fa-check text-success mr-2"></i> All templates + customization</li>
+                            <li class="flex items-center"><i class="fas fa-check text-success mr-2"></i> Priority support</li>
+                        </ul>
+                        <button onclick="showAuthModal('register')" class="btn-primary w-full">Start Free Trial</button>
+                    </div>
+                    <div class="feature-card text-center">
+                        <h3 class="text-2xl font-bold mb-4">Enterprise</h3>
+                        <p class="text-3xl font-bold mb-2">Custom</p>
+                        <p class="text-secondary mb-6">For large organizations</p>
+                        <ul class="text-left space-y-3 mb-8">
+                            <li class="flex items-center"><i class="fas fa-check text-success mr-2"></i> Everything in Pro</li>
+                            <li class="flex items-center"><i class="fas fa-check text-success mr-2"></i> Dedicated account manager</li>
+                            <li class="flex items-center"><i class="fas fa-check text-success mr-2"></i> Custom integrations</li>
+                            <li class="flex items-center"><i class="fas fa-check text-success mr-2"></i> On-premise deployment</li>
+                        </ul>
+                        <button onclick="showContactModal()" class="btn-secondary w-full">Contact Sales</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-gray-900 text-white py-12">
+            <div class="container mx-auto px-4">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                    <div>
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-balance-scale text-2xl mr-3"></i>
+                            <h3 class="text-xl font-bold">Classic Legal</h3>
+                        </div>
+                        <p class="text-gray-400">Making Pakistani legal compliance simple for startups and SMEs.</p>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold mb-4">Product</h4>
+                        <ul class="space-y-2 text-gray-400">
+                            <li><a href="#" class="hover:text-white transition">Features</a></li>
+                            <li><a href="#" class="hover:text-white transition">Pricing</a></li>
+                            <li><a href="#" class="hover:text-white transition">API</a></li>
+                            <li><a href="#" class="hover:text-white transition">Integrations</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold mb-4">Resources</h4>
+                        <ul class="space-y-2 text-gray-400">
+                            <li><a href="#" class="hover:text-white transition">Documentation</a></li>
+                            <li><a href="#" class="hover:text-white transition">Blog</a></li>
+                            <li><a href="#" class="hover:text-white transition">Support</a></li>
+                            <li><a href="#" class="hover:text-white transition">Legal Guide</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold mb-4">Company</h4>
+                        <ul class="space-y-2 text-gray-400">
+                            <li><a href="#" class="hover:text-white transition">About</a></li>
+                            <li><a href="#" class="hover:text-white transition">Contact</a></li>
+                            <li><a href="#" class="hover:text-white transition">Privacy</a></li>
+                            <li><a href="#" class="hover:text-white transition">Terms</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                    <p>&copy; 2023 Classic Legal Compliance. Developed by <a href="https://www.linkedin.com/in/aayanshaikhacca" class="text-primary hover:underline">Aayan Shaikh</a></p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Auth Modal -->
+    <div id="auth-modal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center p-6 border-b border-gray-200 dark:border-gray-700">
+                <h2 id="auth-title" class="text-2xl font-bold">Welcome Back</h2>
+                <button onclick="closeAuthModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            ```html
+            <div class="p-6">
+                <!-- Login Form -->
+                <form id="login-form" class="space-y-4">
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-input" placeholder="your@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <input type="password" class="form-input" placeholder="••••••••" required>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <label class="flex items-center">
+                            <input type="checkbox" class="mr-2">
+                            <span class="text-sm">Remember me</span>
+                        </label>
+                        <a href="#" class="text-sm text-primary hover:underline">Forgot password?</a>
+                    </div>
+                    <button type="submit" class="btn-primary w-full">Sign In</button>
+                    <p class="text-center text-sm text-secondary">
+                        Don't have an account? 
+                        <a href="#" onclick="switchAuthMode('register')" class="text-primary hover:underline">Sign up</a>
+                    </p>
+                </form>
+
+                <!-- Register Form -->
+                <form id="register-form" class="space-y-4 hidden">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="form-group">
+                            <label class="form-label">First Name</label>
+                            <input type="text" class="form-input" placeholder="John" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Last Name</label>
+                            <input type="text" class="form-input" placeholder="Doe" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-input" placeholder="your@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Company Name</label>
+                        <input type="text" class="form-input" placeholder="Your Company Ltd" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <input type="password" class="form-input" placeholder="••••••••" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Confirm Password</label>
+                        <input type="password" class="form-input" placeholder="••••••••" required>
+                    </div>
+                    <label class="flex items-center">
+                        <input type="checkbox" class="mr-2" required>
+                        <span class="text-sm">I agree to the <a href="#" class="text-primary hover:underline">Terms of Service</a></span>
+                    </label>
+                    <button type="submit" class="btn-primary w-full">Create Account</button>
+                    <p class="text-center text-sm text-secondary">
+                        Already have an account? 
+                        <a href="#" onclick="switchAuthMode('login')" class="text-primary hover:underline">Sign in</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="dashboard" class="hidden">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                <div class="flex items-center">
+                    <i class="fas fa-balance-scale text-2xl mr-3" style="color: var(--primary);"></i>
+                    <h1 class="text-xl font-bold">Classic Legal</h1>
+                </div>
+            </div>
+            
+            <nav class="p-4">
+                <a href="#" class="nav-item active" data-view="overview">
+                    <i class="fas fa-home mr-3"></i> Overview
+                </a>
+                <a href="#" class="nav-item" data-view="checklist">
+                    <i class="fas fa-tasks mr-3"></i> Compliance Checklist
+                </a>
+                <a href="#" class="nav-item" data-view="timeline">
+                    <i class="fas fa-calendar-alt mr-3"></i> Timeline & Deadlines
+                </a>
+                <a href="#" class="nav-item" data-view="documents">
+                    <i class="fas fa-file-alt mr-3"></i> Documents
+                </a>
+                <a href="#" class="nav-item" data-view="ai-assistant">
+                    <i class="fas fa-robot mr-3"></i> AI Assistant
+                </a>
+                <a href="#" class="nav-item" data-view="analytics">
+                    <i class="fas fa-chart-line mr-3"></i> Analytics
+                </a>
+                <a href="#" class="nav-item" data-view="settings">
+                    <i class="fas fa-cog mr-3"></i> Settings
+                </a>
+            </nav>
+            
+            <div class="p-4 mt-auto border-t border-gray-200 dark:border-gray-700">
+                <div class="flex items-center mb-4">
+                    <img src="https://ui-avatars.com/api/?name=User&background=2D5016&color=fff" class="w-10 h-10 rounded-full mr-3">
+                    <div>
+                        <p class="font-semibold" id="user-display-name">Loading...</p>
+                        <p class="text-sm text-secondary" id="user-display-email">...</p>
+                    </div>
+                </div>
+                <button onclick="logout()" class="btn-secondary w-full">
+                    <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <div class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 p-4">
+                <div class="flex justify-between items-center">
+                    <button class="mobile-menu-btn p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                    <h2 id="page-title" class="text-2xl font-bold">Dashboard Overview</h2>
+                    <div class="flex items-center space-x-4">
+                        <button id="theme-toggle-dashboard" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                        <button class="relative p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
+                            <i class="fas fa-bell text-xl"></i>
+                            <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Area -->
+            <div class="p-6">
+                <!-- Overview View -->
+                <div id="overview-view" class="view-content">
+                    <!-- Stats Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                        <div class="card">
+                            <div class="flex justify-between items-start mb-4">
+                                <div>
+                                    <p class="text-secondary text-sm">Overall Compliance</p>
+                                    <p class="text-3xl font-bold mt-1" id="overall-compliance">0%</p>
+                                </div>
+                                <div class="w-12 h-12 rounded-lg bg-primary bg-opacity-10 flex items-center justify-center">
+                                    <i class="fas fa-chart-pie text-primary"></i>
+                                </div>
+                            </div>
+                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                                <div class="bg-primary h-2 rounded-full transition-all duration-1000" id="compliance-progress-bar" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="flex justify-between items-start mb-4">
+                                <div>
+                                    <p class="text-secondary text-sm">Pending Tasks</p>
+                                    <p class="text-3xl font-bold mt-1" id="pending-tasks-count">0</p>
+                                </div>
+                                <div class="w-12 h-12 rounded-lg bg-warning bg-opacity-10 flex items-center justify-center">
+                                    <i class="fas fa-exclamation-triangle text-warning"></i>
+                                </div>
+                            </div>
+                            <p class="text-sm text-secondary">3 due this week</p>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="flex justify-between items-start mb-4">
+                                <div>
+                                    <p class="text-secondary text-sm">Documents</p>
+                                    <p class="text-3xl font-bold mt-1" id="documents-count">0</p>
+                                </div>
+                                <div class="w-12 h-12 rounded-lg bg-success bg-opacity-10 flex items-center justify-center">
+                                    <i class="fas fa-file-alt text-success"></i>
+                                </div>
+                            </div>
+                            <p class="text-sm text-secondary">5 templates available</p>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="flex justify-between items-start mb-4">
+                                <div>
+                                    <p class="text-secondary text-sm">Next Deadline</p>
+                                    <p class="text-2xl font-bold mt-1" id="next-deadline">--</p>
+                                </div>
+                                <div class="w-12 h-12 rounded-lg bg-danger bg-opacity-10 flex items-center justify-center">
+                                    <i class="fas fa-calendar-times text-danger"></i>
+                                </div>
+                            </div>
+                            <p class="text-sm text-secondary" id="next-deadline-task">No upcoming deadlines</p>
+                        </div>
+                    </div>
+
+                    <!-- Progress Chart -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                        <div class="card">
+                            <h3 class="text-xl font-semibold mb-4">Compliance Progress</h3>
+                            <canvas id="compliance-chart" height="300"></canvas>
+                        </div>
+                        
+                        <div class="card">
+                            <h3 class="text-xl font-semibold mb-4">Recent Activities</h3>
+                            <div class="space-y-4" id="recent-activities">
+                                <!-- Activities will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Urgent Tasks -->
+                    <div class="card">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-semibold">Urgent Tasks</h3>
+                            <a href="#" onclick="switchView('checklist')" class="text-primary hover:underline text-sm">View All</a>
+                        </div>
+                        <div class="space-y-3" id="urgent-tasks">
+                            <!-- Tasks will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Checklist View -->
+                <div id="checklist-view" class="view-content hidden">
+                    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                        <!-- Categories -->
+                        <div class="lg:col-span-1">
+                            <div class="card">
+                                <h3 class="text-lg font-semibold mb-4">Categories</h3>
+                                <div class="space-y-2" id="checklist-categories">
+                                    <!-- Categories will be loaded here -->
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Tasks -->
+                        <div class="lg:col-span-3">
+                            <div class="card">
+                                <div class="flex justify-between items-center mb-6">
+                                    <h3 class="text-xl font-semibold" id="current-category-title">All Tasks</h3>
+                                    <div class="flex items-center space-x-4">
+                                        <span class="text-sm text-secondary" id="category-progress">0/0 completed</span>
+                                        <button class="btn-secondary text-sm">
+                                            <i class="fas fa-filter mr-2"></i> Filter
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="space-y-3" id="checklist-tasks">
+                                    <!-- Tasks will be loaded here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timeline View -->
+                <div id="timeline-view" class="view-content hidden">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="lg:col-span-2">
+                            <div class="calendar">
+                                <div class="calendar-header">
+                                    <button id="prev-month" class="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </button>
+                                    <h3 class="text-xl font-semibold" id="current-month">December 2023</h3>
+                                    <button id="next-month" class="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </button>
+                                </div>
+                                <div class="calendar-grid" id="calendar-grid">
+                                    <!-- Calendar will be rendered here -->
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="lg:col-span-1">
+                            <div class="card">
+                                <h3 class="text-lg font-semibold mb-4">Upcoming Deadlines</h3>
+                                <div class="space-y-3" id="upcoming-deadlines">
+                                    <!-- Deadlines will be loaded here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Documents View -->
+                <div id="documents-view" class="view-content hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-2xl font-semibold">Document Library</h3>
+                        <div class="flex space-x-3">
+                            <button onclick="uploadDocument()" class="btn-secondary">
+                                <i class="fas fa-upload mr-2"></i> Upload
+                            </button>
+                            <button onclick="createDocument()" class="btn-primary">
+                                <i class="fas fa-plus mr-2"></i> Create New
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                        <div class="lg:col-span-1">
+                            <div class="card">
+                                <h4 class="font-semibold mb-4">Categories</h4>
+                                <div class="space-y-2">
+                                    <button class="w-full text-left p-3 rounded-lg bg-primary bg-opacity-10 text-primary font-medium">
+                                        <i class="fas fa-folder mr-2"></i> All Documents
+                                    </button>
+                                    <button class="w-full text-left p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
+                                        <i class="fas fa-building mr-2"></i> Incorporation
+                                    </button>
+                                    <button class="w-full text-left p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
+                                        <i class="fas fa-file-invoice-dollar mr-2"></i> Taxation
+                                    </button>
+                                    <button class="w-full text-left p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
+                                        <i class="fas fa-users mr-2"></i> Employment
+                                    </button>
+                                    <button class="w-full text-left p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
+                                        <i class="fas fa-shield-alt mr-2"></i> Compliance
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="lg:col-span-3">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="documents-grid">
+                                <!-- Documents will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Assistant View -->
+                <div id="ai-assistant-view" class="view-content hidden">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="lg:col-span-2">
+                            <div class="chat-container">
+                                <div class="p-4 border-b border-gray-200 dark:border-gray-700">
+                                    <div class="flex items-center">
+                                        <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center mr-3">
+                                            <i class="fas fa-robot text-white"></i>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-semibold">AI Legal Assistant</h3>
+                                            <p class="text-sm text-secondary">Trained on Pakistani laws and regulations</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="chat-messages" id="chat-messages">
+                                    <div class="chat-bubble ai">
+                                        <div class="bubble-content">
+                                            <p>Hello! I'm your AI legal assistant. I can help you with:</p>
+                                            <ul class="mt-2 space-y-1 text-sm">
+                                                <li>• SECP company registration</li>
+                                                <li>• FBR tax compliance</li>
+                                                <li>• Employment regulations</li>
+                                                <li>• Legal document templates</li>
+                                            </ul>
+                                            <p class="mt-2">How can I assist you today?</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="chat-input-container">
+                                    <form id="chat-form" class="flex space-x-3">
+                                        <input type="text" id="chat-input" class="chat-input flex-1" placeholder="Ask a question..." required>
+                                        <button type="submit" class="btn-primary">
+                                            <i class="fas fa-paper-plane"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="lg:col-span-1">
+                            <div class="card mb-6">
+                                <h4 class="font-semibold mb-4">Quick Questions</h4>
+                                <div class="space-y-2">
+                                    <button onclick="askQuickQuestion('How do I register my company with SECP?')" class="w-full text-left p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-sm">
+                                        How do I register with SECP?
+                                    </button>
+                                    <button onclick="askQuickQuestion('What are the tax obligations for startups?')" class="w-full text-left p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-sm">
+                                        Tax obligations for startups?
+                                    </button>
+                                    <button onclick="askQuickQuestion('How to register employees with EOBI?')" class="w-full text-left p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-sm">
+                                        EOBI registration process?
+                                    </button>
+                                    <button onclick="askQuickQuestion('What documents are needed for company incorporation?')" class="w-full text-left p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-sm">
+                                        Incorporation documents?
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="card">
+                                <h4 class="font-semibold mb-4">Resources</h4>
+                                <div class="space-y-3">
+                                    <a href="https://www.secp.gov.pk/" target="_blank" class="flex items-center text-sm hover:text-primary">
+                                        <i class="fas fa-external-link-alt mr-2"></i> SECP Official Website
+                                    </a>
+                                    <a href="https://www.fbr.gov.pk/" target="_blank" class="flex items-center text-sm hover:text-primary">
+                                        <i class="fas fa-external-link-alt mr-2"></i> FBR Tax Portal
+                                    </a>
+                                    <a href="#" class="flex items-center text-sm hover:text-primary">
+                                        <i class="fas fa-book mr-2"></i> Legal Guide PDF
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analytics View -->
+                <div id="analytics-view" class="view-content hidden">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                        <div class="card">
+                            <h3 class="text-xl font-semibold mb-4">Compliance Trends</h3>
+                            <canvas id="trends-chart" height="300"></canvas>
+                        </div>
+                        
+                        <div class="card">
+                            <h3 class="text-xl font-semibold mb-4">Category Breakdown</h3>
+                            <canvas id="category-chart" height="300"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h3 class="text-xl font-semibold mb-4">Activity Log</h3>
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead>
+                                    <tr class="border-b border-gray-200 dark:border-gray-700">
+                                        <th class="text-left py-3 px-4">Date</th>
+                                        <th class="text-left py-3 px-4">Action</th>
+                                        <th class="text-left py-3 px-4">Category</th>
+                                        <th class="text-left py-3 px-4">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="activity-log">
+                                    <!-- Activities will be loaded here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings View -->
+                <div id="settings-view" class="view-content hidden">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="lg:col-span-1">
+                            <div class="card">
+                                <h3 class="text-lg font-semibold mb-4">Settings Menu</h3>
+                                <div class="space-y-2">
+                                    <button class="w-full text-left p-3 rounded-lg bg-primary bg-opacity-10 text-primary font-medium">
+                                        <i class="fas fa-user mr-2"></i> Profile
+                                    </button>
+                                    <button class="w-full text-left p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
+                                        <i class="fas fa-building mr-2"></i> Company
+                                    </button>
+                                    <button class="w-full text-left p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
+                                        <i class="fas fa-bell mr-2"></i> Notifications
+                                    </button>
+                                    <button class="w-full text-left p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
+                                        <i class="fas fa-credit-card mr-2"></i> Subscription
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="lg:col-span-2">
+                            <div class="card">
+                                <h3 class="text-xl font-semibold mb-6">Profile Settings</h3>
+                                <form id="profile-form" class="space-y-4">
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <div class="form-group">
+                                            <label class="form-label">First Name</label>
+                                            <input type="text" class="form-input" id="profile-first-name" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Last Name</label>
+                                            <input type="text" class="form-input" id="profile-last-name" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Email</label>
+                                        <input type="email" class="form-input" id="profile-email" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Phone</label>
+                                        <input type="tel" class="form-input" id="profile-phone">
+                                    </div>
+                                    <button type="submit" class="btn-primary">Save Changes</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <i id="toast-icon" class="fas fa-check-circle mr-3"></i>
+        <span id="toast-message">Success!</span>
+    </div>
+
+    <script>
+        // ==========================================
+        // GLOBAL STATE AND CONFIGURATION
+        // ==========================================
+        const APP_STATE = {
+            user: null,
+            currentView: 'overview',
+            selectedCategory: 'all',
+            tasks: [],
+            documents: [],
+            activities: [],
+            chatHistory: [],
+            theme: localStorage.getItem('theme') || 'light',
+            calendar: {
+                currentMonth: new Date().getMonth(),
+                currentYear: new Date().getFullYear()
+            }
+        };
+
+        // Compliance categories and tasks
+        const COMPLIANCE_DATA = {
+            categories: [
+                {
+                    id: 'incorporation',
+                    name: 'Incorporation',
+                    icon: 'fa-building',
+                    color: 'primary',
+                    tasks: [
+                        {
+                            id: 'inc-1',
+                            title: 'Reserve Company Name with SECP',
+                            description: 'Check availability and reserve your desired company name',
+                            category: 'incorporation',
+                            priority: 'high',
+                            dueDate: null,
+                            completed: false,
+                            documents: ['Name Reservation Form']
+                        },
+                        {
+                            id: 'inc-2',
+                            title: 'Prepare Memorandum & Articles of Association',
+                            description: 'Draft founding documents with lawyer assistance',
+                            category: 'incorporation',
+                            priority: 'high',
+                            dueDate: null,
+                            completed: false,
+                            documents: ['MoA Template', 'AoA Template']
+                        },
+                        {
+                            id: 'inc-3',
+                            title: 'File Incorporation Documents',
+                            description: 'Submit all documents to SECP via eServices portal',
+                            category: 'incorporation',
+                            priority: 'high',
+                            dueDate: null,
+                            completed: false,
+                            documents: ['Form 1', 'Form 21', 'Form 29']
+                        },
+                        {
+                            id: 'inc-4',
+                            title: 'Obtain Certificate of Incorporation',
+                            description: 'Receive official incorporation certificate from SECP',
+                            category: 'incorporation',
+                            priority: 'medium',
+                            dueDate: null,
+                            completed: false,
+                            documents: []
+                        }
+                    ]
+                },
+                {
+                    id: 'taxation',
+                    name: 'Taxation',
+                    icon: 'fa-file-invoice-dollar',
+                    color: 'warning',
+                    tasks: [
+                        {
+                            id: 'tax-1',
+                            title: 'Obtain National Tax Number (NTN)',
+                            description: 'Register with FBR for tax purposes',
+                            category: 'taxation',
+                            priority: 'high',
+                            dueDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+                            completed: false,
+                            documents: ['NTN Registration Form']
+                        },
+                        {
+                            id: 'tax-2',
+                            title: 'Register for Sales Tax',
+                            description: 'Required if annual turnover exceeds Rs. 10 million',
+                            category: 'taxation',
+                            priority: 'medium',
+                            dueDate: new Date(Date.now() + 45 * 24 * 60 * 60 * 1000),
+                            completed: false,
+                            documents: ['Sales Tax Form']
+                        },
+                        {
+                            id: 'tax-3',
+                            title: 'File Monthly Withholding Tax Statement',
+                            description: 'Submit by 15th of each month',
+                            category: 'taxation',
+                            priority:
